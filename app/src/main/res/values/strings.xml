@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GallerySwiper</string>
+    <string name="pick_photos">Pick Photos</string>
+    <string name="scan_all">Scan All Photos</string>
+    <string name="progress_text">0 / 0</string>
+    <string name="progress_format">%1$d / %2$d</string>
+    <string name="selected_photo">Selected photo</string>
+    <string name="swipe_hint">Swipe left = delete   |   Swipe right = keep</string>
+    <string name="undo">Undo</string>
+    <string name="delete_marked">Delete Marked Photos</string>
+    <string name="no_photos_selected">No photos selected</string>
+    <string name="photos_deleted">Photos deleted</string>
+    <string name="delete_canceled">Delete canceled</string>
+    <string name="marked_for_delete">Marked for delete</string>
+    <string name="kept">Kept</string>
+    <string name="done_message">Done! Kept: %1$d  Delete: %2$d</string>
+    <string name="undid_last_action">Undid last action</string>
+    <string name="no_photos_marked">No photos marked for deletion</string>
+    <string name="delete_request_error">Could not start delete request</string>
+    <string name="api_too_low">Deletion requires Android 11 or higher</string>
+    <string name="how_to_use">How to use</string>
+    <string name="swipe_instructions">Swipe left to mark a photo for deletion.\nSwipe right to keep the photo.</string>
+    <string name="dont_show_again">Don\'t show again</string>
+    <string name="ok">OK</string>
+    <string name="permission_denied">Permission denied. Cannot scan photos.</string>
+    <string name="scanning_photos">Scanning photos...</string>
+</resources>
