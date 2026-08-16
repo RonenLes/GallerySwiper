@@ -8,6 +8,7 @@ class GalleryActionControls extends StatelessWidget {
     required this.canUndo,
     required this.deleteCount,
     required this.onUndo,
+    required this.onUndoAll,
     required this.onDeleteDecision,
     required this.onKeepDecision,
     required this.onDeleteMarked,
@@ -18,6 +19,7 @@ class GalleryActionControls extends StatelessWidget {
   final bool canUndo;
   final int deleteCount;
   final VoidCallback onUndo;
+  final VoidCallback onUndoAll;
   final VoidCallback onDeleteDecision;
   final VoidCallback onKeepDecision;
   final VoidCallback onDeleteMarked;
@@ -36,14 +38,22 @@ class GalleryActionControls extends StatelessWidget {
               onPressed: canUndo ? onUndo : null,
               small: true,
             ),
-            const SizedBox(width: 22),
+            const SizedBox(width: 12),
+            _RoundAction(
+              icon: Icons.settings_backup_restore_rounded,
+              label: 'Undo all',
+              color: const Color(0xFF9AA1B3),
+              onPressed: canUndo ? onUndoAll : null,
+              small: true,
+            ),
+            const SizedBox(width: 12),
             _RoundAction(
               icon: Icons.delete_outline_rounded,
               label: 'Delete',
               color: AppColors.delete,
               onPressed: canDecide ? onDeleteDecision : null,
             ),
-            const SizedBox(width: 22),
+            const SizedBox(width: 12),
             _RoundAction(
               icon: Icons.favorite_rounded,
               label: 'Keep',

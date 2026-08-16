@@ -4,9 +4,10 @@ import 'package:photo_manager/photo_manager.dart';
 import '../widgets/asset_image.dart';
 
 class ZoomPhotoPage extends StatefulWidget {
-  const ZoomPhotoPage({required this.asset, super.key});
+  const ZoomPhotoPage({required this.asset, this.onUndoDelete, super.key});
 
   final AssetEntity asset;
+  final VoidCallback? onUndoDelete;
 
   @override
   State<ZoomPhotoPage> createState() => _ZoomPhotoPageState();
@@ -70,6 +71,21 @@ class _ZoomPhotoPageState extends State<ZoomPhotoPage> {
           ),
         ),
       ),
+      bottomNavigationBar: widget.onUndoDelete == null
+          ? null
+          : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+                child: FilledButton.icon(
+                  onPressed: () {
+                    widget.onUndoDelete!();
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.undo_rounded),
+                  label: const Text('Undo delete'),
+                ),
+              ),
+            ),
     );
   }
 }

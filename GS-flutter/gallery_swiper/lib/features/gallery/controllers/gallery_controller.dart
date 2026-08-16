@@ -48,9 +48,9 @@ class GalleryController extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? decide(SwipeDecision decision) {
+  void decide(SwipeDecision decision) {
     final photo = currentPhoto;
-    if (photo == null) return null;
+    if (photo == null) return;
 
     if (decision == SwipeDecision.delete) {
       _markedForDeletion.add(photo);
@@ -60,11 +60,6 @@ class GalleryController extends ChangeNotifier {
     _history.add(SwipeRecord(photo, decision));
     _currentIndex++;
     notifyListeners();
-
-    if (isComplete) {
-      return 'Done! Kept $keptCount, marked ${_markedForDeletion.length}.';
-    }
-    return decision == SwipeDecision.delete ? 'Marked for deletion' : 'Kept';
   }
 
   bool undo() {
@@ -74,6 +69,36 @@ class GalleryController extends ChangeNotifier {
       last.asset,
     );
     _currentIndex = (_currentIndex - 1).clamp(0, _photos.length);
+    notifyListeners();
+    return true;
+  }
+
+  bool undoAll() {
+    if (_history.isEmpty) return false;
+    _history.clear();
+    _markedForDeletion.clear();
+    _kept.clear();
+    _currentIndex = 0;
+    notifyListeners();
+    return true;
+  }
+
+  bool removeFromDeletion(AssetEntity photo) {
+    final markedIndex = _markedForDeletion.indexWhere(
+      (marked) => marked.id == photo.id,
+    );
+    if (markedIndex == -1) return false;
+    _markedForDeletion.removeAt(markedIndex);
+
+    if (!_kept.any((kept) => kept.id == photo.id)) {
+      _kept.add(photo);
+    }
+    final historyIndex = _history.lastIndexWhere(
+      (record) => record.asset.id == photo.id,
+    );
+    if (historyIndex != -1) {
+      _history[historyIndex] = SwipeRecord(photo, SwipeDecision.keep);
+    }
     notifyListeners();
     return true;
   }

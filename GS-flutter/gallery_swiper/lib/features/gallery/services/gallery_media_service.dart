@@ -61,6 +61,45 @@ class GalleryMediaService {
     );
   }
 
+  Future<GalleryLoadResult> scanPhotosByDate({
+    required int year,
+    int? month,
+  }) async {
+    final all = await scanAllPhotos();
+    if (all.status != GalleryLoadStatus.loaded) return all;
+
+    final photos = <AssetEntity>[];
+    for (final photo in all.photos) {
+      final date = photo.createDateTime;
+      if (date.year == year && (month == null || date.month == month)) {
+        photos.add(photo);
+      }
+    }
+    return GalleryLoadResult(
+      photos.isEmpty ? GalleryLoadStatus.empty : GalleryLoadStatus.loaded,
+      photos,
+    );
+  }
+
+  Future<List<AssetPathEntity>?> getAlbums() async {
+    if (!await requestAccess()) return null;
+    return PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      hasAll: false,
+    );
+  }
+
+  Future<GalleryLoadResult> scanAlbum(AssetPathEntity album) async {
+    final photos = await album.getAssetListPaged(
+      page: 0,
+      size: await album.assetCountAsync,
+    );
+    return GalleryLoadResult(
+      photos.isEmpty ? GalleryLoadStatus.empty : GalleryLoadStatus.loaded,
+      photos,
+    );
+  }
+
   Future<List<String>> deletePhotos(List<AssetEntity> photos) {
     return PhotoManager.editor.deleteWithIds(
       photos.map((photo) => photo.id).toList(growable: false),

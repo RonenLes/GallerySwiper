@@ -12,6 +12,7 @@ class GalleryPhotoCard extends StatelessWidget {
     required this.hasPhotos,
     required this.keptCount,
     required this.deleteCount,
+    required this.statusMessage,
     required this.onDecision,
     required this.onOpenPhoto,
     super.key,
@@ -22,6 +23,7 @@ class GalleryPhotoCard extends StatelessWidget {
   final bool hasPhotos;
   final int keptCount;
   final int deleteCount;
+  final String? statusMessage;
   final ValueChanged<SwipeDecision> onDecision;
   final ValueChanged<AssetEntity> onOpenPhoto;
 
@@ -45,17 +47,49 @@ class GalleryPhotoCard extends StatelessWidget {
             color: AppColors.card,
             border: Border.all(color: Colors.white.withValues(alpha: .08)),
           ),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 320),
-            switchInCurve: Curves.easeOutCubic,
-            transitionBuilder: (child, animation) => FadeTransition(
-              opacity: animation,
-              child: ScaleTransition(
-                scale: Tween(begin: .985, end: 1.0).animate(animation),
-                child: child,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 320),
+                switchInCurve: Curves.easeOutCubic,
+                transitionBuilder: (child, animation) => FadeTransition(
+                  opacity: animation,
+                  child: ScaleTransition(
+                    scale: Tween(begin: .985, end: 1.0).animate(animation),
+                    child: child,
+                  ),
+                ),
+                child: photo == null ? _buildEmptyState() : _buildPhoto(photo!),
               ),
-            ),
-            child: photo == null ? _buildEmptyState() : _buildPhoto(photo!),
+              Positioned(
+                top: 14,
+                left: 16,
+                right: photo == null ? 16 : 64,
+                child: IgnorePointer(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 180),
+                    reverseDuration: const Duration(milliseconds: 140),
+                    transitionBuilder: (child, animation) => FadeTransition(
+                      opacity: animation,
+                      child: SlideTransition(
+                        position: Tween(
+                          begin: const Offset(0, -.15),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      ),
+                    ),
+                    child: statusMessage == null
+                        ? const SizedBox.shrink(key: ValueKey('no-status'))
+                        : _StatusBanner(
+                            key: ValueKey(statusMessage),
+                            message: statusMessage!,
+                          ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -186,6 +220,59 @@ class GalleryPhotoCard extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StatusBanner extends StatelessWidget {
+  const _StatusBanner({required this.message, super.key});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: const Color(0xE6222632),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white.withValues(alpha: .12)),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x55000000),
+              blurRadius: 14,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.info_outline_rounded,
+                color: AppColors.primaryLight,
+                size: 18,
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  message,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
