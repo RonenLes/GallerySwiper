@@ -1,6 +1,6 @@
 # GallerySwiper 📸✨
 
-**GallerySwiper** is a stylish, minimalist Android application designed to help you declutter your photo gallery quickly and efficiently using intuitive swipe gestures. Inspired by dating app mechanics, it turns the tedious task of cleaning up your photos into a fast and satisfying experience.
+**GallerySwiper** is a stylish, minimalist Flutter app for Android and iOS that helps you declutter your photo gallery quickly and efficiently using intuitive swipe gestures. Inspired by dating app mechanics, it turns the tedious task of cleaning up your photos into a fast and satisfying experience.
 
 ## 📱 Screenshots
 
