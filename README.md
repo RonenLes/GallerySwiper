@@ -2,6 +2,19 @@
 
 **GallerySwiper** is a stylish, minimalist Android application designed to help you declutter your photo gallery quickly and efficiently using intuitive swipe gestures. Inspired by dating app mechanics, it turns the tedious task of cleaning up your photos into a fast and satisfying experience.
 
+## 📱 Screenshots
+
+<p align="center">
+  <img src="GS-screenshots/main.jpeg" width="180" alt="GallerySwiper main screen">
+  <img src="GS-screenshots/choose%20photos.jpeg" width="180" alt="Choose photos screen">
+  <img src="GS-screenshots/keep.jpeg" width="180" alt="Keep photo swipe">
+</p>
+
+<p align="center">
+  <img src="GS-screenshots/mark%20for%20delete.jpeg" width="180" alt="Mark photo for deletion">
+  <img src="GS-screenshots/delete%20markphotos.jpeg" width="180" alt="Delete marked photos confirmation">
+</p>
+
 ## ✨ Features
 
 - **Intuitive Swiping:**
